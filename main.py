@@ -60,7 +60,7 @@ file_img3= './images/image3.png'
 main = Main()
 if not os.path.exists("output") or not os.path.exists("images") :
     os.mkdir("./output")
-    os.mkdir("./images")
+    os.mkdir("./images") 
 # looping on student in my data
 for i in tqdm(range(len(main.data))):
     # check for folder that saved in !
@@ -78,26 +78,26 @@ for i in tqdm(range(len(main.data))):
     Total = main.all_Total.iloc[i]
 
     # Title of Pdf Header for Each Student With his name
-    pdf.set_fill_color(200,0,0)
+    pdf.set_fill_color(238,130,238)
     pdf.set_text_color(255,255,255)
-    pdf.set_font("Arial", size=20, style="B")
+    pdf.set_font("Times", size=20, style= "BI")
     pdf.set_xy(5,5)
     text ='Details of Student : '+name  # get the name of each student
     pdf.cell(0, 12.5, txt=text, ln=1, align="C" , fill = True)
 
     # Text box of header
-    pdf.set_fill_color(0,0,200)
+    pdf.set_fill_color(142,56,142)
     pdf.set_text_color(255,255,255)
-    pdf.set_font("Arial", size=15, style='B')
+    pdf.set_font("Times", size=15, style='B')
     pdf.set_xy(5,20)
     pdf.cell(105, 10, txt='Grades in each of the course activities : ', ln=1, align="L",fill=True)
 
 
-# __________________ First Task ___________#
+    # __________________ First Task ___________#
     #• Student grades in each of the course activities (e.g., First, Second, HW1, Final, etc.)
     # Insert Values In table  box
     pdf.set_text_color(0,0,0)
-    pdf.set_font("Arial", size=9, style="B")
+    pdf.set_font("Times", size=9, style="B")
     pdf.set_xy(5,35)
     pdf.cell(25+len(main.Check(Hw1)), 10, txt = "HW1 : " +main.Check(Hw1),  border=1, align="L")
     pdf.cell(25+len(main.Check(Hw2)), 10, txt = "HW2 : " +main.Check(Hw2),  border=1, align="L")
@@ -105,13 +105,19 @@ for i in tqdm(range(len(main.data))):
     pdf.cell(25+len(main.Check(Second)), 10, txt = "Second : " +main.Check(Second),  border=1, align="L")
     pdf.cell(25+len(main.Check(final)), 10, txt = "Final : " +main.Check(final),  border=1, align="L")
 
+    # Text box of Average
+    pdf.set_fill_color(255, 5, 5)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_font("Times", size=20, style='BI')
+    pdf.set_xy(5, 50)
+    pdf.cell(110, 10, txt='Your Average in this course : ' + str(Total), ln=1, align="C", fill=True)
 
-# __________________ Second Task ___________#
+    # __________________ Second Task ___________#
     # Header Of PieChart Digram
-    pdf.set_fill_color(0,0,200)
-    pdf.set_text_color(255,255,255)
-    pdf.set_font("Arial", size=15, style ='B')
-    pdf.set_xy(5,50)
+    pdf.set_fill_color(142, 56, 142)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_font("Times", size=15, style ='B')
+    pdf.set_xy(5,80)
     pdf.cell(130, 10, txt='Pie-chart showing the Weights of Course Activites:', ln=1, align="L",fill=True)
 
     # PieChart Digram
@@ -122,17 +128,17 @@ for i in tqdm(range(len(main.data))):
     plt.axis('equal')
     plt.savefig(file_img2, transparent=False,  facecolor='white', bbox_inches="tight")
     plt.close()
-    pdf.image(file_img2, x = 0, y = 70, w = 200, h = 100, type = 'PNG')
-    #pdf.add_page()
+    pdf.image(file_img2, x = 0, y = 100, w = 200, h = 100, type = 'PNG')
+    pdf.add_page()
 
 # __________________ Third Task ___________#
     # --------------------------------------------- #
     # A graphical representation (bar chart) of the student grades in the course activates
     # Header Of BarChart Digram
-    pdf.set_fill_color(0,0,200)
-    pdf.set_text_color(255,255,255)
-    pdf.set_font("Arial", size=15, style='B')
-    pdf.set_xy(5,170)
+    pdf.set_fill_color(142, 56, 142)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_font("Times", size=15, style='B')
+    pdf.set_xy(5,20)
     pdf.cell(130, 10, txt='Bar-Chart For Student Grades in each Activates :', ln=1, align="L",fill=True)
 
 
@@ -143,7 +149,7 @@ for i in tqdm(range(len(main.data))):
     srudent_grades=[Hw1,Hw2, First, Second, final,Total]
     ))
     bar_plot1 = sns.barplot(x='courses', y='scored', data=df, color="red",width = .4 )
-    bar_plot2 = sns.barplot(x='courses', y='srudent_grades', data=df, color="blue",width = .33)
+    bar_plot2 = sns.barplot(x='courses', y='srudent_grades', data=df, color="blue",width = .3)
     bar_plot2.set(ylabel='Grades',xlabel='')
     bar_plot2.set(title="Activites")
     red_patch = mpatches.Patch(color='red', label='Full Grade')
@@ -152,16 +158,16 @@ for i in tqdm(range(len(main.data))):
     plt.tick_params(axis='x', rotation=90)
     plt.savefig(file_img, transparent=False,  facecolor='white', bbox_inches="tight")
     plt.close()
-    pdf.image(file_img, x = 0, y = 190, w = 200, h = 100, type = 'PNG')
+    pdf.image(file_img, x = 0, y = 40, w = 200, h = 100, type = 'PNG')
     pdf.add_page()
 
 
     # __________________ 4Th Task ___________#
     # • A chart showing the student his/her rank within the whole class
     # Text Header
-    pdf.set_fill_color(0,0,200)
-    pdf.set_text_color(255,255,255)
-    pdf.set_font("Arial", size=15, style='B')
+    pdf.set_fill_color(142, 56, 142)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_font("Times", size=15, style='B')
     pdf.set_xy(5,10)
     text = "It's " + name + ' Rank in the Whole Class For all Students :'
     pdf.cell(130, 10, txt=text, ln=1, align="L",fill=True)
@@ -192,14 +198,23 @@ for i in tqdm(range(len(main.data))):
 
     # Footer Of My Page
     pdf.set_text_color(0,0,0)
-    pdf.set_font("Arial", size=15, style='B')
+    pdf.set_font("Times", size=20, style='BI')
     pdf.set_xy(5,160)
     text = "Thank You "+ name +" For Attend This Course "
-    pdf.cell(130, 10, txt=text, ln=1, align="L")
-    pdf.set_xy(5,210)
-    pdf.set_font("Arial", size=20, style='B')
-    text2 = "With My Best Wishes ,,,"
-    pdf.cell(200, 10, txt=text2, ln=1, align="C")
+    pdf.cell(200, 10, txt=text, ln=1, align="C")
+    pdf.set_xy(5,200)
+    pdf.set_font("Times", size=20, style='B')
+    text2 = 'Sorry You are Failed in this course' if Total < 50 else 'Congratulation, you pass in this course'
+    pdf.cell(200, 10, txt= text2, ln= 1, align= 'C')
+    pdf.set_xy(5,220)
+    text3 = "With My Best Wishes"
+    pdf.cell(200, 10, txt=text3, ln=1, align="C")
+    pdf.set_text_color(255, 0, 0)
+    pdf.set_font("Times", size=25, style='BI')
+    pdf.set_xy(5, 240)
+    text4 = 'Tahreer Awad'
+    pdf.cell(200, 10, txt=text4, ln=1, align='C')
+
     # End >>
 
     # # Exporting PDFs
